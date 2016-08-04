@@ -83,7 +83,7 @@ window.findNQueensSolution = function(n) {
   var startIndex = 0;
   var x = 0;
   var y = 0;
-  var issueStart, oldX;
+  var issueStart;
   var conflictOccured = false;
   while (y < n) {
     // console.log(x, y);
@@ -103,16 +103,11 @@ window.findNQueensSolution = function(n) {
       //Toggle queen we moved to
       solution.togglePiece(y, x);
       if (x === issueStart) {
-        // startIndex = (startIndex + 1) % n;
-        // x = startIndex;
-        // y = 0;
-        // for (var i = 0; i < n; i ++) {
-        //   solution.initialize({n: n});
-        // }
-        y--;
-        x = oldX
-        conflictOccured = false;
         solution.togglePiece(y, x);
+        y--;
+        x = solution.rows()[y].indexOf(1);
+        solution.togglePiece(y, x);
+        x = (x + 1) % n;
       }
 
     }
@@ -120,10 +115,8 @@ window.findNQueensSolution = function(n) {
 
     if (!conflictOccured) {
       y ++;
-      oldX = x;
       x = (x + 2) % n;
     } else {
-      solution.togglePiece(y, x);
       conflictOccured = false;
     }
   }
@@ -131,47 +124,17 @@ window.findNQueensSolution = function(n) {
   return solution.rows();
 };
 
-window.findAllNQueens = function(n) {
-  var solutionSet = [];
-  if (n === 2 || n === 3) {
-    return (new Board({n: n})).rows();
-  }
-  var solution = new Board({n: n});
-  var startIndex = 0;
-  var x = 0;
-  var y = 0;
-  while (startIndex < n) {
-    while (y < n) {
 
-      solution.togglePiece(y, x);
-
-      while (solution.hasAnyQueensConflicts()) {
-        solution.togglePiece(y, x);
-        x++;
-        solution.togglePiece(y, x);
-        if (y === n && x === n) {
-          startIndex = (startIndex + 1) % n;
-          x = startIndex;
-          y = 0;
-          solution = new Board({n: n});
-
-        }
-      }
-      y ++;
-      x = (x + 2) % n;
-
-    }
-    solutionSet.push(solution.rows());
-  }
-  return solutionSet;
-};
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
+  if (n === 0) {
+    return 1;
+  }
   if (n === 2 || n === 3) {
     return 0;
   }
-  var solutionSet = [];
+  var solutionSet = _.uniq(findAllNQueens(n));
 
 
   console.log('Number of solutions for ' + n + ' queens:', solutionSet.length);
