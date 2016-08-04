@@ -14,7 +14,7 @@
       } else if (params.hasOwnProperty('n')) {
         this.set(makeEmptyMatrix(this.get('n')));
       } else {
-        this.set('n', params.length);
+        this.set('n', params.length); 
       }
     },
 
@@ -84,7 +84,7 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return this.rows().some(function(current, rowIndex){
+      return this.rows().some(function(current, rowIndex) {
         return this.hasRowConflictAt(rowIndex);
       }.bind(this));
     },
@@ -96,14 +96,14 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return this.rows().reduce(function(sum, currentRow){
-        return sum +currentRow[colIndex];
-      },0) > 1;
+      return this.rows().reduce(function(sum, currentRow) {
+        return sum + currentRow[colIndex];
+      }, 0) > 1;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return this.rows()[0].some(function(current, colIndex){
+      return this.rows()[0].some(function(current, colIndex) {
         return this.hasColConflictAt(colIndex);
       }.bind(this));
     },
@@ -116,19 +116,19 @@
     // test if a specific major diagonal on this board contains a conflict
     //Major is a negative slope
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return this.rows().reduce(function(sum, currentRow,currentRowIndex){
-        if(this._isInBounds(currentRowIndex, currentRowIndex+majorDiagonalColumnIndexAtFirstRow)){
-         return sum+this.rows()[currentRowIndex][currentRowIndex+majorDiagonalColumnIndexAtFirstRow];
-        } else return sum;
-      }.bind(this),0) > 1;
+      return this.rows().reduce(function(sum, currentRow, currentRowIndex) {
+        if (this._isInBounds(currentRowIndex, currentRowIndex + majorDiagonalColumnIndexAtFirstRow)) {
+          return sum + this.rows()[currentRowIndex][currentRowIndex + majorDiagonalColumnIndexAtFirstRow];
+        } else { return sum; }
+      }.bind(this), 0) > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return this.rows()[0].some(function(current, colIndex){
+      return this.rows()[0].some(function(current, colIndex) {
         return this.hasMajorDiagonalConflictAt(this._getFirstRowColumnIndexForMajorDiagonalOn(0, colIndex));
-      }.bind(this)) || this.rows()[this.rows().length-1].some(function(current, colIndex){
-        return this.hasMajorDiagonalConflictAt(this._getFirstRowColumnIndexForMajorDiagonalOn(this.rows().length-1, colIndex));
+      }.bind(this)) || this.rows()[this.rows().length - 1 ].some(function(current, colIndex) {
+        return this.hasMajorDiagonalConflictAt(this._getFirstRowColumnIndexForMajorDiagonalOn(this.rows().length - 1, colIndex));
       }.bind(this));
     },
 
@@ -140,19 +140,19 @@
     // test if a specific minor diagonal on this board contains a conflict
     //Minor is a positive slope
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return this.rows().reduce(function(sum, currentRow, currentRowIndex){
-        if(this._isInBounds(currentRowIndex, minorDiagonalColumnIndexAtFirstRow-currentRowIndex)){
-         return sum+this.rows()[currentRowIndex][minorDiagonalColumnIndexAtFirstRow-currentRowIndex];
-        } else return sum;
-      }.bind(this),0) > 1;
+      return this.rows().reduce(function(sum, currentRow, currentRowIndex) {
+        if (this._isInBounds(currentRowIndex, minorDiagonalColumnIndexAtFirstRow - currentRowIndex )) {
+          return sum + this.rows()[currentRowIndex][minorDiagonalColumnIndexAtFirstRow - currentRowIndex];
+        } else { return sum; }
+      }.bind(this), 0) > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return this.rows()[0].some(function(current, colIndex){
+      return this.rows()[0].some(function(current, colIndex) {
         return this.hasMinorDiagonalConflictAt(this._getFirstRowColumnIndexForMinorDiagonalOn(0, colIndex));
-      }.bind(this)) || this.rows()[this.rows().length-1].some(function(current, colIndex){
-        return this.hasMinorDiagonalConflictAt(this._getFirstRowColumnIndexForMinorDiagonalOn(this.rows().length-1, colIndex));
+      }.bind(this)) || this.rows()[this.rows().length - 1].some(function(current, colIndex) {
+        return this.hasMinorDiagonalConflictAt(this._getFirstRowColumnIndexForMinorDiagonalOn(this.rows().length - 1, colIndex));
       }.bind(this));
     }
 
@@ -161,7 +161,7 @@
 
   });
 
-  var makeEmptyMatrix = function(n) {
+  window.makeEmptyMatrix = function(n) {
     return _(_.range(n)).map(function() {
       return _(_.range(n)).map(function() {
         return 0;
